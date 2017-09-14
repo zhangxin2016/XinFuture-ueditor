@@ -44,7 +44,7 @@ function addArticle() {
         this.each(function() {
             var _this = $(this);
             var info = '<p class="textarea-numberbar" id="info"><em class="textarea-length">' +
-                '<b>' + (option.maxNumber - _this.val().length) + '</b></em>/<em class="textarea-length">200</em></p>';
+                '<b>' + (_this.val().length) + '</b></em>/<em class="textarea-length">200</em></p>';
             var fn = function() {
                 var $info = $('#info');
                 var extraNumber = 200-(option.maxNumber - _this.val().length);
@@ -88,10 +88,10 @@ $(function() {
         maxNumber: 200, //最大字数
         position: 'bottom', //提示文字的位置，top：文本框上方，bottom：文本框下方
         onOk: function() {
-            $('#test').css('background-color', 'white');
+            $('#abstract_').css('background-color', 'white');
         }, //输入后，字数未超出时调用的函数
         onOver: function() {
-            $('#test').css('background-color', 'lightpink');
+            $('#abstract_').css('background-color', 'lightpink');
         } //输入后，字数超出时调用的函数，这里把文本区域的背景变为粉红色
     });
 });
