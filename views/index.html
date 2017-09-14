@@ -44,14 +44,17 @@
             <label class="form-label col-xs-4 col-sm-2">文章摘要：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <textarea name="abstract" id="abstract_" cols="" rows="" class="textarea" placeholder="说点什么...最少输入10个字符"
-                          datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！"></textarea>
-                <p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
+                          datatype="*10-100" dragonfly="true"  maxlength="200" nullmsg="备注不能为空！"></textarea>
+                <!--<p class="textarea-numberbar">
+                    <em class="textarea-length">0</em>/
+                    <em class="textarea-length">200</em>
+                </p>-->
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">文章内容：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <script id="editor" type="text/plain"></script>
+                <script id="editor" type="text/plain" style="width:100%;height:400px"></script>
             </div>
         </div>
         <div class="row cl">

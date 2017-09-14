@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>jquery插件——仿新浪微博限制输入字数的textarea</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.10.1/jquery.min.js"></script>
+    <style>
+        *{padding: 0;margin: 0;}
+        .box{width: 800px;margin: 0 auto;}
+        #test{border:1px solid #d9d9d9; padding:0 1%;line-height: 1.8;font-family: "microsoft yahei";font-size: 14px;display: block; width: 98%; height: 80px;;}
+        #info{padding: 3px 0;font-family: "microsoft yahei";font-size: 14px;}
+    </style>
+</head>
+<body>
+<div class="box">
+    <textarea id="test" width="100%"></textarea>
+</div>
+<script>
+    (function($) {
+        $.fn.limitTextarea = function(opts) {
+            var defaults = {
+                maxNumber: 140, //允许输入的最大字数
+                position: 'top', //提示文字的位置，top：文本框上方，bottom：文本框下方
+                onOk: function() {}, //输入后，字数未超出时调用的函数
+                onOver: function() {} //输入后，字数超出时调用的函数
+            }
+            var option = $.extend(defaults, opts);
+            this.each(function() {
+                var _this = $(this);
+                var info = '<div id="info">还可以输入<b>' + (option.maxNumber - _this.val().length) + '</b>字</div>';
+                var fn = function() {
+                    var $info = $('#info');
+                    var extraNumber = option.maxNumber - _this.val().length;
+
+                    if (extraNumber >= 0) {
+                        $info.html('还可以输入<b>' + extraNumber + '</b>个字');
+                        option.onOk();
+                    } else {
+                        $info.html('已经超出<b style="color:red;">' + (-extraNumber) + '</b>个字');
+                        option.onOver();
+                    }
+                };
+                switch (option.position) {
+                    case 'top':
+                        _this.before(info);
+                        break;
+                    case 'bottom':
+                    default:
+                        _this.after(info);
+                }
+                //绑定输入事件监听器
+                if (window.addEventListener) { //先执行W3C
+                    _this.get(0).addEventListener("input", fn, false);
+                } else {
+                    _this.get(0).attachEvent("onpropertychange", fn);
+                }
+                if (window.VBArray && window.addEventListener) { //IE9
+                    _this.get(0).attachEvent("onkeydown", function() {
+                        var key = window.event.keyCode;
+                        (key == 8 || key == 46) && fn(); //处理回退与删除
+                    });
+                    _this.get(0).attachEvent("oncut", fn); //处理粘贴
+                }
+            });
+        }
+    })(jQuery)
+    //插件调用；
+    $(function() {
+        $('#test').limitTextarea({
+            maxNumber: 140, //最大字数
+            position: 'bottom', //提示文字的位置，top：文本框上方，bottom：文本框下方
+            onOk: function() {
+                $('#test').css('background-color', 'white');
+            }, //输入后，字数未超出时调用的函数
+            onOver: function() {
+                $('#test').css('background-color', 'lightpink');
+            } //输入后，字数超出时调用的函数，这里把文本区域的背景变为粉红色
+        });
+    });
+</script>
+</body>
+</html>
